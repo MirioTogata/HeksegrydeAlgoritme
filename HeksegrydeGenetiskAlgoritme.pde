@@ -1,6 +1,6 @@
 //variabler
 int antalgryder = 20;
-int mutationpct = 1;
+int mutationpct = 4;
 int probability = 2;
 
 ArrayList<PVector> muligeingredienser = new ArrayList<PVector>();
@@ -112,7 +112,10 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
     nextGen.add(new Gryde(grydee, 1)); //tilføj en gryde til nextGen som har en 1/1 chance for at have alle ingredienser sat ind
   }
   
-  
+  //mutation virker desværre ikke
+  for (Gryde gryde : nextGen){
+    //gryde.mutate();
+  }
   
   return nextGen;
 }

@@ -19,8 +19,15 @@ class Gryde {
       totalstyrken = 0;
     }
   }
-  
-  void mutate(){
-    
+
+  void mutate() {
+    if ((int)random(0, 100) < mutationpct) {
+      int random = (int)random(0, gryde.size());  
+      if (gryde.get(random).x == 0) {
+        gryde.get(random).set(muligeingredienser.get(random).copy());
+      } else {
+        gryde.get(random).set(0,0);
+      }
+    }
   }
 }
