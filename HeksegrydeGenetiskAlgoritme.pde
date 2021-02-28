@@ -11,7 +11,6 @@ int totalstyrke = 0;
 int randomnum = 0;
 
 
-
 void setup() {
   size(800, 867);
   //Starter med at tilføje alle ingredienserne
