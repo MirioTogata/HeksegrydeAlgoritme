@@ -8,7 +8,7 @@ ArrayList<Gryde> currentgen = new ArrayList<Gryde>();
 IntList bedstestyrker = new IntList();
 int currentbedst = 0;
 int totalstyrke = 0;
-int randomUwU = 0;
+int randomnum = 0;
 
 
 
@@ -48,11 +48,15 @@ void draw() {
     currentgen = nextGen(currentgen);
   }
   fill(0);
-  noStroke();
   for (int i = 0; i < bedstestyrker.size(); i++) {
-    circle(width/bedstestyrker.size()*i, bedstestyrker.get(i)/5+10, 10);
+    circle(width/bedstestyrker.size()*i+30, bedstestyrker.get(i)/5+30, 10);
   }
-  
+  text("Styrke:",8,15);
+  text("Generation:",width-70,height-30);
+  strokeWeight(3);
+  stroke(30, 200, 30);
+  line(20, 20, 20, height-20);
+  line(20, height-20, width-20, height-20);
 }
 
 ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion der skal kunne tage en nuværende generation og lave den om til en ny
@@ -78,12 +82,12 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
   ArrayList<Gryde> foraeldre = new ArrayList<Gryde>();
 
   for (int i = 0; i < 2*currGen.size(); i++) {
-    int cumStyrke = 0;
-    randomUwU = (int)random(1, totalstyrke);
+    int cumuStyrke = 0;
+    randomnum = (int)random(1, totalstyrke);
     for (int j = 0; j < styrkerne.size(); j++) {
       if (j < 199) {
-        cumStyrke += styrkerne.get(j+1);
-        if (cumStyrke > randomUwU) {
+        cumuStyrke += styrkerne.get(j+1);
+        if (cumuStyrke > randomnum) {
           foraeldre.add(currGen.get(j));
           break;
         }
@@ -98,17 +102,17 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
     ArrayList<PVector> grydee = new ArrayList<PVector>();
 
     for (int j = 0; j < foraeldre.get(i).gryde.size(); j++) {
-      randomUwU = (int)random(1, 3);
-      if (randomUwU == 1) {
+      randomnum = (int)random(1, 3);
+      if (randomnum == 1) {
         grydee.add(foraeldre.get(i).gryde.get(j));
-      } else if (randomUwU == 2) {
+      } else if (randomnum == 2) {
         grydee.add(foraeldre.get(i+1).gryde.get(j));
       }
     }
     //nu har vi en gryde med tilfældige elementer fra forældrene. Vi skal nu lave lidt mutation
     for (int j = 0; j < grydee.size(); j++) {
-      randomUwU = (int)random(1, 100);
-      if (randomUwU <= mutationpct) {
+      randomnum = (int)random(1, 100);
+      if (randomnum <= mutationpct) {
         if (grydee.get(j).x == 0) {
           grydee.get(j).x = muligeingredienser.get(j).x;
           grydee.get(j).y = muligeingredienser.get(j).y;
