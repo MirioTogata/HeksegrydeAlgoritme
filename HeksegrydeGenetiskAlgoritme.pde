@@ -1,5 +1,5 @@
 //variabler
-int antalgryder = 200;
+int antalgryder = 20;
 int mutationpct = 1;
 int probability = 2;
 
@@ -9,7 +9,7 @@ IntList bedstestyrker = new IntList();
 int currentbedst = 0;
 int totalstyrke = 0;
 int randomnum = 0;
-
+int bedsti = 0;
 
 void setup() {
   size(800, 867);
@@ -43,15 +43,15 @@ void setup() {
 void draw() {
   background(255);
   noLoop();
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 50; i++) {
     currentgen = nextGen(currentgen);
   }
   fill(0);
   for (int i = 0; i < bedstestyrker.size(); i++) {
-    circle(width/bedstestyrker.size()*i+30, bedstestyrker.get(i)/5+30, 10);
+    circle(width/bedstestyrker.size()*i+30, height-bedstestyrker.get(i)/5+30, 10);
   }
-  text("Styrke:",8,15);
-  text("Generation:",width-70,height-30);
+  text("Styrke:", 8, 15);
+  text("Generation:", width-70, height-30);
   strokeWeight(3);
   stroke(30, 200, 30);
   line(20, 20, 20, height-20);
@@ -72,9 +72,12 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
     totalstyrke += styrkerne.get(i);
     if (styrkerne.get(i) > currentbedst) {
       currentbedst = styrkerne.get(i);
+      bedsti = i;
     }
   }
+  println(currGen.get(bedsti).totalpladsen);
   bedstestyrker.append((int)sqrt(currentbedst));
+  
   //så vil jeg finde "forældre" til mine gryder
   //en gryde har bedre chance for at være forældre jo bedre styrke den har
   ArrayList<Gryde> nextGen = new ArrayList<Gryde>();
@@ -82,19 +85,16 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
 
   for (int i = 0; i < 2*currGen.size(); i++) {
     int cumuStyrke = 0;
-    randomnum = (int)random(1, totalstyrke);
+    randomnum = (int)random(0, totalstyrke);
     for (int j = 0; j < styrkerne.size(); j++) {
-      if (j < 199) {
-        cumuStyrke += styrkerne.get(j+1);
-        if (cumuStyrke > randomnum) {
-          foraeldre.add(currGen.get(j));
-          break;
-        }
-      } else {
+      cumuStyrke += styrkerne.get(j);
+      if (cumuStyrke > randomnum) {
         foraeldre.add(currGen.get(j));
+        break;
       }
     }
   }
+  assert(foraeldre.size() == currGen.size()*2);
   //der burde nu være dobbelt så mange forældre som der er gryder i den gamle generation
   //nu vil vi lave 200 nye gryder ud fra forældrene
   for (int i = 0; i<2*currGen.size(); i += 2) {
@@ -108,22 +108,11 @@ ArrayList<Gryde> nextGen(ArrayList<Gryde> currGen) { //nextGen er en funktion de
         grydee.add(foraeldre.get(i+1).gryde.get(j));
       }
     }
-    //nu har vi en gryde med tilfældige elementer fra forældrene. Vi skal nu lave lidt mutation
-    for (int j = 0; j < grydee.size(); j++) {
-      randomnum = (int)random(1, 100);
-      if (randomnum <= mutationpct) {
-        if (grydee.get(j).x == 0) {
-          grydee.get(j).x = muligeingredienser.get(j).x;
-          grydee.get(j).y = muligeingredienser.get(j).y;
-        } else {
-          grydee.get(j).x = 0;
-          grydee.get(j).y = 0;
-        }
-      }
-    }
-
+     //nu har vi en gryde med tilfældige elementer fra forældrene. Den laver vi nu
     nextGen.add(new Gryde(grydee, 1)); //tilføj en gryde til nextGen som har en 1/1 chance for at have alle ingredienser sat ind
   }
-
+  
+  
+  
   return nextGen;
 }
